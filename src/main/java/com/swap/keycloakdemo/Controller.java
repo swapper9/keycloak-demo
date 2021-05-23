@@ -21,8 +21,9 @@ public class Controller {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "/user")
     public ResponseEntity<String> getUserKey(@AuthenticationPrincipal Jwt token) {
-        long authId = token.getClaim("authId");
-        return new ResponseEntity<>("authId: " + authId, HttpStatus.OK);
+        StringBuilder builder = new StringBuilder();
+        token.getClaims().forEach((k, v) -> builder.append(k).append(" :").append(v.toString()).append("\n"));
+        return new ResponseEntity<>(builder.toString(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
